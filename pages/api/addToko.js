@@ -7,9 +7,9 @@ function slugify(text) {
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-");
+    .replace(/\s+/g, "-")       // ganti spasi jadi "-"
+    .replace(/[^\w\-]+/g, "")   // hapus karakter aneh
+    .replace(/\-\-+/g, "-");    // hapus strip ganda
 }
 
 export default async function handler(req, res) {
@@ -36,9 +36,12 @@ export default async function handler(req, res) {
       kategori: kategori || "Lainnya",
     });
 
+    // ambil domain otomatis dari request
+    const baseUrl = `https://${req.headers.host}`;
+
     return res.status(200).json({
       message: "Toko berhasil ditambahkan",
-      link: `https://warunginstan.vercel.app/${tokoId}`,
+      link: `${baseUrl}/${tokoId}`,
     });
   } catch (err) {
     console.error(err);
